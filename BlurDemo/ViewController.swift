@@ -12,7 +12,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let PanelHeight:CGFloat = 240.0
+    let PanelHeight:CGFloat = 340.0
     
     var panel:UIView?
     
@@ -54,8 +54,8 @@ class ViewController: UIViewController {
     
     func createPanel() {
         
-        var panelRect = CGRectMake(0.0 as CGFloat, self.view.frame.size.height, self.view.frame.size.width, self.PanelHeight)
-        var blur = UIBlurEffect(style: .ExtraLight)
+        var panelRect = CGRectMake(0.0 as CGFloat, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height)
+        var blur = UIBlurEffect(style: UIBlurEffectStyle.Light)
         var visualEffectView = UIVisualEffectView(effect: blur)
         
         visualEffectView.frame = panelRect
@@ -109,7 +109,7 @@ class ViewController: UIViewController {
     }
 
     func minPanelY() -> CGFloat {
-        return self.maxPanelY() - self.PanelHeight
+        return 0
     }
     
     func onDrag(pan:UIPanGestureRecognizer) {
@@ -117,14 +117,14 @@ class ViewController: UIViewController {
         
         var frame = self.panel!.frame
         frame.origin.y = frame.origin.y + offset.y
-//        frame.origin.y = min(frame.origin.y, self.maxPanelY())
+        frame.origin.y = min(frame.origin.y, self.maxPanelY())
         frame.origin.y = max(frame.origin.y, self.minPanelY())
         
         self.panel!.frame = frame
         
         pan.setTranslation(CGPointZero, inView: self.panel)
         
-        if pan.state == UIGestureRecognizerState.Ended && self.panel!.frame.origin.y > (self.maxPanelY() - (self.PanelHeight/2)) {
+        if pan.state == UIGestureRecognizerState.Ended && self.panel!.frame.origin.y > (self.maxPanelY()/2) {
             self.closePanel()
         }
         
